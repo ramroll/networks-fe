@@ -4,7 +4,7 @@
 
 ## 课程目录和章节对应关系
 
-- 网络协议 - http目录
+- 网络协议 - [http目录](src/http)
 - 网络请求实战 - practis
 - 网络安全 - cors
 - 浏览器状态同步和路由 - serverside
