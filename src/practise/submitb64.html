@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>HTML Forms</h2>
+
+<div>
+  <label for="file">file:</label><br>
+  <input type="file" id="file" name="file"><br><br>
+  <input onClick='submit()' type="submit" value="Submit">
+</div> 
+
+<script>
+  let upload = {}
+  function submit(){
+    console.log('here', upload)
+    fetch('/submitb64', {
+      method : "POST",
+      //body : `name=${upload.name}&data=${upload.data}`,
+      body : JSON.stringify(upload),
+      headers : {
+        //'Content-Type' : 'application/x-www-form-urlencoded'
+        'Content-Type' : 'application/json'
+      }
+    })
+  }
+  document.getElementById("file").addEventListener('change', e=>{
+    const files = e.target.files
+    for(let file of files) {
+      const fr = new FileReader()
+      fr.readAsDataURL(file)
+      fr.onload = () => {
+        console.log(fr.result)
+        upload.data = fr.result.substr(22)
+        upload.name = file.name
+      }
+    }
+  })
+</script>
+</body>
+
+</html>

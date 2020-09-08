@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>HTML Forms</h2>
+
+<div>
+  <label for="file">file:</label><br>
+  <input type="file" id="file" name="file"><br><br>
+  <input onClick='submit()' type="submit" value="Submit">
+</div> 
+
+<script>
+  let upload = {}
+  function submit(){
+    console.log('here', upload)
+    const formData = new FormData()
+    formData.append('name', upload.name)
+    formData.append('file', upload.data)
+    fetch('/submitbinary', {
+      method : "POST",
+      body : formData,
+      headers : {
+        // 这里如果设置了Content-Type会有Bug
+        // 'Content-Type' : 'multipart/form-data'
+      }
+    })
+  }
+  document.getElementById("file").addEventListener('change', e=>{
+    const files = e.target.files
+    for(let file of files) {
+        upload.data = file 
+        upload.name = file.name
+    }
+  })
+</script>
+</body>
+
+</html>

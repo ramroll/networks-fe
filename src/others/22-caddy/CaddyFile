@@ -1,0 +1,15 @@
+www.test1.com
+tls internal
+# /api1 -> 3000
+# /api2 -> 3001
+# reverse_proxy localhost:3000 localhost:3001
+
+route /api1* {
+  uri strip_prefix /api1  
+  reverse_proxy localhost:3000
+}
+
+route /api2* {
+  uri strip_prefix /api2  
+  reverse_proxy localhost:3001
+}

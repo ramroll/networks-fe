@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Chatroom</h2>
+
+<div></div>
+<label>say</label>
+<input />
+<button>send</button>
+
+<script>
+const client = new WebSocket('ws://chat.svc:8080')
+// wss -> WebSocket Secure
+// https - tls/ssl - tcp/ip
+// wss - tls - tcp/ip
+
+client.onopen = () => {
+  console.log('connection open')
+}
+
+
+
+
+
+</script>
+
+</body>
+
+</html>

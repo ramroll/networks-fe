@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <style>
+    #content {
+
+      padding :10px;
+      border : 1px solid #343434;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Chatroom</h2>
+
+<div id='content'></div>
+<label>say</label>
+<input id='ipt' />
+<button onclick="send()">send</button>
+
+<script src="/socket.io.js"></script>
+<script>
+
+  const socket = io('ws://chat.svc:8080')
+  const name = "user" + new Date().getTime()
+  socket.send({
+    type : 'LOGIN',
+    name
+  })
+
+  const contentDiv = document.getElementById('content')
+  socket.on('message', data => {
+    const {message, sender} = data
+
+    let senderName = sender
+
+    if(!sender) {
+      senderName = "系统"
+    }
+    else if(sender === name) {
+      senderName = "我"
+    }
+
+    const div = document.createElement('div')
+    div.className = data.type.toLowerCase()
+    div.innerHTML = `${senderName}: ${message}`
+    contentDiv.append(div)
+  })
+
+  const ipt = document.getElementById('ipt')
+  ipt.addEventListener('keyup', e => {
+    if(e.key === 'Enter') {
+      send()
+    }
+  })
+  function send(){
+    const val = ipt.value
+    if(val === '') {
+      return
+    }
+
+    console.log(val)
+    socket.send({
+      type : "CHAT",
+      message : val
+    })
+
+    ipt.value = ""
+    ipt.focus()
+
+  }
+
+  
+  
+</script>
+
+</body>
+
+</html>

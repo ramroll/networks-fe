@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <style>
+      a {
+        color :skyblue;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+<body>
+
+<h2>单页面应用示例</h2>
+
+<div id='content'></div>
+
+
+<ul>
+  <li><a onclick='route("/products")'>列表</a></li>
+  <li><a onclick='route("/product/123")'>详情</a></li>
+</ul>
+<script>
+
+function pageList(){
+  
+  const html = `
+  <ul>
+    <li>Apple</li>
+    <li>TicTok</li>
+    <li>Alibaba</li>
+  </ul>
+  `
+  document.getElementById('content')
+    .innerHTML = html
+} 
+
+function pageDetail(){
+  document.getElementById('content')
+    .innerHTML = "DETAIL" 
+}
+
+function route(path) {
+  history.pushState(null, null, path)
+  matchRoute(pages,window.location.href)
+}
+
+const pages = [
+  {
+    match : /\/products/,
+    route: pageList
+  },
+  {
+    match : /\/product\/\d+/,
+    route : pageDetail
+  }
+]
+
+function matchRoute(pages, href) {
+  const page = pages.find(page =>page.match.test(href))
+  page.route()
+}
+
+window.onpopstate= function(){
+  matchRoute(pages, window.location.href)
+}
+
+matchRoute(pages, window.location.href)
+
+</script>
+</body>
+</html>
